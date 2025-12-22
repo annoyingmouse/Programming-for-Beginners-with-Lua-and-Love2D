@@ -1,23 +1,26 @@
-function DoubleValueAndGiveBack(number)
-  local doubled = number * 2
-  return doubled
-end
+WordsToGuess = {
+  {"a", "p", "p", "l", "e"},
+  {"h", "o", "r", "i", "z", "o", "n"},
+  {"c", "o", "m", "p", "u", "t", "e", "r"},
+  {"m", "u", "s", "i", "c"},
+  {"l", "o", "v", "e"},
+  {"s", "p", "a", "c", "e"},
+  {"t", "e", "c", "h", "n", "o", "l", "o", "g", "y"},
+  {"i", "n", "t", "e", "r", "n", "e", "t"},
+  {"d", "e", "v", "e", "l", "o", "p", "m", "e", "n", "t"},
+  {"a", "r", "t", "i", "f", "i", "c", "i", "a", "l"},
+}
 
 function love.load()
-  A = 5
-  print("The starting value is: " .. A)
-  A = DoubleValueAndGiveBack(A)
-  print("The value is now: " .. A .. " after doubling.")
+  for i, v in ipairs(WordsToGuess[1]) do
+    print(i..v)
+  end
 end
 
-function IncrementA()
-  
-end
 
 function love.update()
 
 end
 
 function love.draw()
-  love.graphics.printf(A, 0, 0, 100, "left")
 end
