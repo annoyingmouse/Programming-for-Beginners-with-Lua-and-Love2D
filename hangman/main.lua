@@ -2,6 +2,15 @@ local word = require("Word")
 local dump = require("utils/dump")
 local margin = 50
 ChocolateCoveredRaindropsBOLD = love.graphics.newFont("Chocolate Covered Raindrops BOLD.ttf", 80)
+Colours = {
+  win = {r = 26/255, g = 74/255, b = 19/255},
+  lose = {r = 1, g = 0, b = 0},
+  wrong = {r = 0.3, g = 0, b = 0},
+  neutral = {r = 0, g = 0, b = 0},
+}
+WrongLetterPressed = false
+RedFlashDuration = 0.05
+RedFlashTimer = 0
 
 WordsToGuess = {
   word:new(margin, "apple", love.graphics.getDimensions()),
@@ -21,12 +30,50 @@ function love.load()
 end
 
 
-function love.update()
-
+function love.update(dt)
+  if WrongLetterPressed then
+    RedFlashTimer = RedFlashTimer - dt
+    if RedFlashTimer <= 0 then
+      WrongLetterPressed = false
+      RedFlashTimer = 0
+    end
+  end
 end
 
 function love.draw()
+  local colour
+  if Lives <= 0 then
+    colour = Colours.lose
+  elseif CurrentWord.completed then
+    colour = Colours.win
+  elseif WrongLetterPressed then
+    colour = Colours.wrong
+    
+  else
+    colour = Colours.neutral
+  end
   love.graphics.setFont(ChocolateCoveredRaindropsBOLD)
+  love.graphics.setBackgroundColor(colour.r, colour.g, colour.b)
+  love.graphics.print("Lives: " .. Lives, 570, 20)
+  if Lives == 0 then
+    love.graphics.printf(
+      "Game Over! Click to restart.",
+      0,
+      love.graphics.getHeight() / 2 - love.graphics.getFont():getHeight() / 2,
+      love.graphics.getWidth(),
+      "center"
+    )
+  end
+  if CurrentWord.completed then
+    love.graphics.printf(
+      "Congratulations! Click to play again.",
+      0,
+      love.graphics.getHeight() / 2 - love.graphics.getFont():getHeight() / 2,
+      love.graphics.getWidth(),
+      "center"
+    )
+  end
+
   for _, letterObj in ipairs(CurrentWord.letters) do
     if letterObj.guessed then
       love.graphics.printf(
@@ -64,30 +111,27 @@ function ProcessGuess(letter)
 end
 
 function ProcessWrongGuess()
-  Lives = Lives - 1
-  print("Lives remaining: " .. Lives)
-end
-
-function ProcessCorrectGuess(letter)
-  print(letter.. " is in the word!")
+  Lives = Lives > 0 and Lives - 1 or 0
+  WrongLetterPressed = true
+  RedFlashTimer = RedFlashDuration
 end
 
 function love.keypressed(key)
-  local found = false
-  for _, letterObj in ipairs(CurrentWord.letters) do
-    if key == letterObj.char then
-      CurrentWord:setGuessed(key)
-      ProcessCorrectGuess(key)
-      found = true
-      if CurrentWord.completed then
-        print("Congratulations! You've guessed the word: " .. CurrentWord.word)
+  if Lives > 0 and CurrentWord.completed == false then
+    local found = false
+    for _, letterObj in ipairs(CurrentWord.letters) do
+      if key == letterObj.char then
+        CurrentWord:setGuessed(key)
+        found = true
+        if CurrentWord.completed then
+          print("Congratulations! You've guessed the word: " .. CurrentWord.word)
+        end
       end
     end
+    if not found then
+      ProcessWrongGuess()
+    end
   end
-  if not found then
-    ProcessWrongGuess()
-  end
-
 end
 
 function InitiateNewGame()
