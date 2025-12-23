@@ -1,0 +1,4 @@
+*/*.love
+# Ignore all .love files
+*.exe
+# Ignore all .exe files

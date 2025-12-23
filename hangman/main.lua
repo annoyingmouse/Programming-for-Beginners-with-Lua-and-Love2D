@@ -1,5 +1,4 @@
 local word = require("Word")
-local dump = require("utils/dump")
 local margin = 50
 ChocolateCoveredRaindropsBOLD = love.graphics.newFont("Chocolate Covered Raindrops BOLD.ttf", 80)
 Colours = {
