@@ -14,6 +14,8 @@ RedFlashTimer = 0
 FalseLetters = {}
 Lives = 10
 
+math.randomseed(os.time())
+
 WordsToGuess = {
   word:new(margin, "apple", love.graphics.getDimensions()),
   word:new(margin, "horizon", love.graphics.getDimensions()),
@@ -65,8 +67,7 @@ function love.draw()
       love.graphics.getWidth(),
       "center"
     )
-  end
-  if CurrentWord.completed then
+  elseif CurrentWord.completed then
     love.graphics.printf(
       "Congratulations! Click to play again.",
       0,
