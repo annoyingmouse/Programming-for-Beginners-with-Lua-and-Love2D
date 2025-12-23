@@ -16,17 +16,19 @@ Lives = 10
 
 math.randomseed(os.time())
 
+local width, height = love.graphics.getDimensions()
+
 WordsToGuess = {
-  word:new(margin, "apple", love.graphics.getDimensions()),
-  word:new(margin, "horizon", love.graphics.getDimensions()),
-  word:new(margin, "computer", love.graphics.getDimensions()),
-  word:new(margin, "music", love.graphics.getDimensions()),
-  word:new(margin, "love", love.graphics.getDimensions()),
-  word:new(margin, "space", love.graphics.getDimensions()),
-  word:new(margin, "technology", love.graphics.getDimensions()),
-  word:new(margin, "internet", love.graphics.getDimensions()),
-  word:new(margin, "development", love.graphics.getDimensions()),
-  word:new(margin, "artificial", love.graphics.getDimensions()),
+  word:new(margin, "apple", width, height),
+  word:new(margin, "horizon", width, height),
+  word:new(margin, "computer", width, height),
+  word:new(margin, "music", width, height),
+  word:new(margin, "love", width, height),
+  word:new(margin, "space", width, height),
+  word:new(margin, "technology", width, height),
+  word:new(margin, "internet", width, height),
+  word:new(margin, "development", width, height),
+  word:new(margin, "artificial", width, height),
 }
 
 function love.load()
