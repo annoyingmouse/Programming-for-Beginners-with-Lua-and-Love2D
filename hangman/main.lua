@@ -1,19 +1,19 @@
-local letter = require("Letter")
 local word = require("Word")
 local dump = require("utils/dump")
-ChocolateCoveredRaindropsBOLD = love.graphics.newFont("Chocolate Covered Raindrops BOLD.ttf", 64)
+local margin = 50
+ChocolateCoveredRaindropsBOLD = love.graphics.newFont("Chocolate Covered Raindrops BOLD.ttf", 80)
 
 WordsToGuess = {
-  word:new(50, {letter:new("a"), letter:new("p"), letter:new("p"), letter:new("l"), letter:new("e")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("h"), letter:new("o"), letter:new("r"), letter:new("i"), letter:new("z"), letter:new("o"), letter:new("n")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("c"), letter:new("o"), letter:new("m"), letter:new("p"), letter:new("u"), letter:new("t"), letter:new("e"), letter:new("r")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("m"), letter:new("u"), letter:new("s"), letter:new("i"), letter:new("c")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("l"), letter:new("o"), letter:new("v"), letter:new("e")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("s"), letter:new("p"), letter:new("a"), letter:new("c"), letter:new("e")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("t"), letter:new("e"), letter:new("c"), letter:new("h"), letter:new("n"), letter:new("o"), letter:new("l"), letter:new("o"), letter:new("g"), letter:new("y")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("i"), letter:new("n"), letter:new("t"), letter:new("e"), letter:new("r"), letter:new("n"), letter:new("e"), letter:new("t")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("d"), letter:new("e"), letter:new("v"), letter:new("e"), letter:new("l"), letter:new("o"), letter:new("p"), letter:new("m"), letter:new("e"), letter:new("n"), letter:new("t")}, love.graphics.getDimensions()),
-  word:new(50, {letter:new("a"), letter:new("r"), letter:new("t"), letter:new("i"), letter:new("f"), letter:new("i"), letter:new("c"), letter:new("i"), letter:new("a"), letter:new("l")}, love.graphics.getDimensions()),
+  word:new(margin, "apple", love.graphics.getDimensions()),
+  word:new(margin, "horizon", love.graphics.getDimensions()),
+  word:new(margin, "computer", love.graphics.getDimensions()),
+  word:new(margin, "music", love.graphics.getDimensions()),
+  word:new(margin, "love", love.graphics.getDimensions()),
+  word:new(margin, "space", love.graphics.getDimensions()),
+  word:new(margin, "technology", love.graphics.getDimensions()),
+  word:new(margin, "internet", love.graphics.getDimensions()),
+  word:new(margin, "development", love.graphics.getDimensions()),
+  word:new(margin, "artificial", love.graphics.getDimensions()),
 }
 
 function love.load()
@@ -22,7 +22,7 @@ end
 
 
 function love.update()
-  
+
 end
 
 function love.draw()
@@ -36,6 +36,12 @@ function love.draw()
         letterObj.width,
         "center"
       )
+      -- love.graphics.line(
+      --   letterObj.startX,
+      --   letterObj.startY,
+      --   letterObj.startX + letterObj.width,
+      --   letterObj.startY
+      -- )
     else
       love.graphics.line(
         letterObj.startX,
@@ -49,11 +55,12 @@ end
 
 function SelectNewWord()
   CurrentWord = WordsToGuess[love.math.random(1, #WordsToGuess)]
-  CurrentWordLength = #CurrentWord
+  CurrentWord:reset()
 end
 
+
 function ProcessGuess(letter)
-  
+
 end
 
 function ProcessWrongGuess()
@@ -62,18 +69,17 @@ function ProcessWrongGuess()
 end
 
 function ProcessCorrectGuess(letter)
-  CurrentWordProgress = CurrentWordProgress + 1
   print(letter.. " is in the word!")
 end
 
 function love.keypressed(key)
   local found = false
   for _, letterObj in ipairs(CurrentWord.letters) do
-    if key == letterObj.char and not letterObj.guessed then
-      letterObj.guessed = true
-      ProcessCorrectGuess(letterObj.char)
+    if key == letterObj.char then
+      CurrentWord:setGuessed(key)
+      ProcessCorrectGuess(key)
       found = true
-      if CurrentWordProgress == CurrentWordLength then
+      if CurrentWord.completed then
         print("Congratulations! You've guessed the word: " .. CurrentWord.word)
       end
     end
@@ -81,25 +87,18 @@ function love.keypressed(key)
   if not found then
     ProcessWrongGuess()
   end
-  -- for i, letter in ipairs(CurrentWord) do
-  --   if key == letter then
-  --     ProcessCorrectGuess(letter)
-  --     if CurrentWordProgress == CurrentWordLength then
-  --       print("Congratulations! You've guessed the word: " .. table.concat(CurrentWord))
-  --     end
-  --   else 
-  --     ProcessWrongGuess()
-  --   end
-  -- end
+
 end
 
 function InitiateNewGame()
   Lives = 10
   SelectNewWord()
-  CurrentWordProgress = 0
-  print(dump(CurrentWord))
 end
 
 function love.mousepressed(x, y, button)
-  InitiateNewGame()
+  if CurrentWord.completed or Lives <= 0 then
+    print("Starting new game...")
+    InitiateNewGame()
+  end
+  
 end
