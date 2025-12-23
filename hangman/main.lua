@@ -11,6 +11,8 @@ Colours = {
 WrongLetterPressed = false
 RedFlashDuration = 0.05
 RedFlashTimer = 0
+FalseLetters = {}
+Lives = 10
 
 WordsToGuess = {
   word:new(margin, "apple", love.graphics.getDimensions()),
@@ -27,6 +29,7 @@ WordsToGuess = {
 
 function love.load()
   InitiateNewGame()
+  love.graphics.setFont(ChocolateCoveredRaindropsBOLD)
 end
 
 
@@ -52,7 +55,6 @@ function love.draw()
   else
     colour = Colours.neutral
   end
-  love.graphics.setFont(ChocolateCoveredRaindropsBOLD)
   love.graphics.setBackgroundColor(colour.r, colour.g, colour.b)
   love.graphics.print("Lives: " .. Lives, 570, 20)
   if Lives == 0 then
@@ -110,33 +112,48 @@ function ProcessGuess(letter)
 
 end
 
-function ProcessWrongGuess()
-  Lives = Lives > 0 and Lives - 1 or 0
+function WrongLetterAlreadyGuessed(letter)
+  for _, l in ipairs(FalseLetters) do
+    if l == letter then
+      return true
+    end
+  end
+  return false
+end
+
+function ProcessWrongGuess(key)
+  if WrongLetterAlreadyGuessed(key) == false then
+    table.insert(FalseLetters, key)
+    Lives = Lives > 0 and Lives - 1 or 0
+  end
   WrongLetterPressed = true
   RedFlashTimer = RedFlashDuration
 end
 
 function love.keypressed(key)
-  if Lives > 0 and CurrentWord.completed == false then
-    local found = false
-    for _, letterObj in ipairs(CurrentWord.letters) do
-      if key == letterObj.char then
-        CurrentWord:setGuessed(key)
-        found = true
-        if CurrentWord.completed then
-          print("Congratulations! You've guessed the word: " .. CurrentWord.word)
-        end
+  if Lives <= 0 or CurrentWord.completed then
+    return
+  end
+  local found = false
+  for _, letterObj in ipairs(CurrentWord.letters) do
+    if key == letterObj.char then
+      CurrentWord:setGuessed(key)
+      found = true
+      if CurrentWord.completed then
+        print("Congratulations! You've guessed the word: " .. CurrentWord.word)
       end
     end
-    if not found then
-      ProcessWrongGuess()
-    end
   end
+  if not found then
+    ProcessWrongGuess(key)
+  end
+
 end
 
 function InitiateNewGame()
   Lives = 10
   SelectNewWord()
+  FalseLetters = {}
 end
 
 function love.mousepressed(x, y, button)
