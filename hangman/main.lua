@@ -1,40 +1,20 @@
-local word = require("Word")
-local margin = 50
+require("words")
+require("colours")
+require("messages")
+
+math.randomseed(os.time())
+
 ChocolateCoveredRaindropsBOLD = love.graphics.newFont("Chocolate Covered Raindrops BOLD.ttf", 80)
-Colours = {
-  win = {r = 26/255, g = 74/255, b = 19/255},
-  lose = {r = 1, g = 0, b = 0},
-  wrong = {r = 0.3, g = 0, b = 0},
-  neutral = {r = 0, g = 0, b = 0},
-}
 WrongLetterPressed = false
 RedFlashDuration = 0.05
 RedFlashTimer = 0
 FalseLetters = {}
 Lives = 10
 
-math.randomseed(os.time())
-
-local width, height = love.graphics.getDimensions()
-
-WordsToGuess = {
-  word:new(margin, "apple", width, height),
-  word:new(margin, "horizon", width, height),
-  word:new(margin, "computer", width, height),
-  word:new(margin, "music", width, height),
-  word:new(margin, "love", width, height),
-  word:new(margin, "space", width, height),
-  word:new(margin, "technology", width, height),
-  word:new(margin, "internet", width, height),
-  word:new(margin, "development", width, height),
-  word:new(margin, "artificial", width, height),
-}
-
 function love.load()
   InitiateNewGame()
   love.graphics.setFont(ChocolateCoveredRaindropsBOLD)
 end
-
 
 function love.update(dt)
   if WrongLetterPressed then
@@ -54,64 +34,23 @@ function love.draw()
     colour = Colours.win
   elseif WrongLetterPressed then
     colour = Colours.wrong
-    
   else
     colour = Colours.neutral
   end
   love.graphics.setBackgroundColor(colour.r, colour.g, colour.b)
   love.graphics.print("Lives: " .. Lives, 570, 20)
   if Lives == 0 then
-    love.graphics.printf(
-      "Game Over! Click to restart.",
-      0,
-      love.graphics.getHeight() / 2 - love.graphics.getFont():getHeight() / 2,
-      love.graphics.getWidth(),
-      "center"
-    )
+    lose()
   elseif CurrentWord.completed then
-    love.graphics.printf(
-      "Congratulations! Click to play again.",
-      0,
-      love.graphics.getHeight() / 2 - love.graphics.getFont():getHeight() / 2,
-      love.graphics.getWidth(),
-      "center"
-    )
+    win()
   end
-
-  for _, letterObj in ipairs(CurrentWord.letters) do
-    if letterObj.guessed then
-      love.graphics.printf(
-        letterObj.char,
-        letterObj.startX - love.graphics.getFont():getWidth(letterObj.char) / 2,
-        letterObj.startY - love.graphics.getFont():getHeight(),
-        letterObj.width,
-        "center"
-      )
-      -- love.graphics.line(
-      --   letterObj.startX,
-      --   letterObj.startY,
-      --   letterObj.startX + letterObj.width,
-      --   letterObj.startY
-      -- )
-    else
-      love.graphics.line(
-        letterObj.startX,
-        letterObj.startY,
-        letterObj.startX + letterObj.width,
-        letterObj.startY
-      )
-    end
-  end
+  CurrentWord:draw()
 end
 
 function SelectNewWord()
   CurrentWord = WordsToGuess[love.math.random(1, #WordsToGuess)]
+  print(CurrentWord.word)
   CurrentWord:reset()
-end
-
-
-function ProcessGuess(letter)
-
 end
 
 function WrongLetterAlreadyGuessed(letter)

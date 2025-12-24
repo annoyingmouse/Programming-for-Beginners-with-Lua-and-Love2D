@@ -46,4 +46,9 @@ Word.setGuessed = function(self, char)
   self.completed = allGuessed
 end
 
+Word.draw = function(self)
+  for _, letterObj in ipairs(self.letters) do
+    letterObj:draw()
+  end
+end
 return Word
