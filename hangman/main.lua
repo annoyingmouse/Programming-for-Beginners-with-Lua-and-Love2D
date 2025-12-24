@@ -88,7 +88,6 @@ function love.keypressed(key)
   if not found then
     ProcessWrongGuess(key)
   end
-
 end
 
 function InitiateNewGame()
@@ -102,5 +101,4 @@ function love.mousepressed(x, y, button)
     print("Starting new game...")
     InitiateNewGame()
   end
-  
 end
