@@ -1,4 +1,4 @@
-local function Dump(tbl)
+function Dump(tbl)
     io.write("{")
     for k, v in pairs(tbl) do
         io.write(k .. " = ")
