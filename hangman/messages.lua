@@ -1,4 +1,6 @@
-function lose()
+local messages = {}
+
+function messages.lose()
   love.graphics.printf(
     "Game Over! Click to restart.",
     0,
@@ -8,7 +10,7 @@ function lose()
   )
 end
 
-function win()
+function messages.win()
   love.graphics.printf(
     "Congratulations! Click to play again.",
     0,
@@ -17,3 +19,5 @@ function win()
     "center"
   )
 end
+
+return messages

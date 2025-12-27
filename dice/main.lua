@@ -1,12 +1,13 @@
 math.randomseed(os.time())
-Dice1 = nil
-Dice2 = nil
-PauseDuration = 0.7
-Pause = 0
-Cheater = false
+local Dice1 = nil
+local Dice2 = nil
+local PauseDuration = 0.7
+local Pause = 0
+local Cheater = false
+local love = require "love"
 
 function love.load()
-  font = love.graphics.newFont("fonts/PER.TTF", 50)  
+  local font = love.graphics.newFont("fonts/PER.TTF", 50)
   love.graphics.setFont(font)
 end
 
@@ -32,7 +33,7 @@ function love.draw()
   end
 end
 
-function love.mousepressed(x, y, button)
+function love.mousepressed(_, _, button)
   if button == 1 then
     Pause = PauseDuration
     if Cheater then

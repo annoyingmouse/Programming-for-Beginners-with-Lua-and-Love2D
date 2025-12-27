@@ -2,7 +2,7 @@ local word = require("Word")
 local margin = 50
 local width, height = love.graphics.getDimensions()
 
-WordsToGuess = {
+local WordsToGuess = {
   word:new(margin, "apple", width, height),
   word:new(margin, "horizon", width, height),
   word:new(margin, "computer", width, height),
@@ -64,3 +64,5 @@ WordsToGuess = {
   word:new(margin, "blanket", width, height),
   word:new(margin, "pillow", width, height)
 }
+
+return WordsToGuess

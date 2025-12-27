@@ -42,28 +42,16 @@ local function SelectNewFlag()
   ButtonsTable[locationOfCorrectAnswer].correct = true
   local optionsTable = {}
   for _, v in ipairs(FlagsTable) do
-    if anomalyLetterFound then
-      if anomalyLetters[string.sub(v.name, 1, 1)] == nil and v.name ~= currentFlag.name then
+    local firstLetter = string.sub(v.name, 1, 1)
+    local isMatch = (anomalyLetterFound and anomalyLetters[firstLetter] == nil) or
+    (not anomalyLetterFound and firstLetter == letter)
+    if isMatch and v.name ~= currentFlag.name then
         table.insert(optionsTable, v.name)
         if #optionsTable >= 3 then
-          break
+            break
         end
-      end
-    else
-      if string.sub(v.name, 1, 1) == letter and v.name ~= currentFlag.name then
-        table.insert(optionsTable, v.name)
-        if #optionsTable >= 3 then
-          break
-        end
-      end
     end
-    -- if string.sub(v.name, 1, 1) == letter and v.name ~= currentFlag.name then
-    --   table.insert(optionsTable, v.name)
-    --   if #optionsTable >= 3 then
-    --     break
-    --   end
-    -- end
-  end
+end
   for i = 1, 4 do
     if i ~= locationOfCorrectAnswer then
       local optionIndex = math.random(1, #optionsTable)
