@@ -110,7 +110,13 @@ local function DrawPlayingScreen()
   for _, square in pairs(squares) do
     square:draw()
   end
-  love.graphics.printf("Mines: " .. numberOfBombs, 0, love.graphics.getHeight() - 35, love.graphics.getWidth(), "center")
+  love.graphics.printf(
+    "Mines: " .. numberOfBombs,
+    0,
+    love.graphics.getHeight() - 35,
+    love.graphics.getWidth(),
+    "center"
+  )
 end
 
 local function DrawMenuScreen()
@@ -118,7 +124,7 @@ local function DrawMenuScreen()
   love.graphics.printf(
     "Minesweeper",
     0,
-    (love.graphics.getHeight() / 2 - LargeFont:getHeight() / 2) - 100,
+    (love.graphics.getHeight() / 2 - (LargeFont and LargeFont:getHeight() or 0) / 2) - 100,
     love.graphics.getWidth(),
     "center"
   )

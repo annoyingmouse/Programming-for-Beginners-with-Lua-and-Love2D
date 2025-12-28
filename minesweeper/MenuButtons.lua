@@ -1,5 +1,5 @@
 local Button = {}
-function Button:new(label, difficulty, xMin, xMax, yMin, yMax, state, font)
+function Button:new(label, difficulty, xMin, xMax, yMin, yMax, state)
   local obj = {
     label = label,
     difficulty = difficulty,
