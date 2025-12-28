@@ -1,14 +1,26 @@
 local love = require("love")
 local checkNeighbors = require('CheckNeighbors')
 local getAdjacentSquares = require('GetAdjacentSquares')
+local buttons = require('MenuButtons')
 local squares = require('squares').squares
+local SmallFont = nil
+local MediumFont = nil
+local LargeFont = nil
 local percentageMines = 25
+local numberOfBombs = 0
+local GameStates = {
+  PLAYING = 1,
+  MENU = 2
+}
+local GameState = nil
 
-local function NewBoard(font)
+local function NewBoard(Font)
+
   for square in pairs(squares) do
-    squares[square].font = font
+    squares[square].font = Font
     if math.random(100) <= percentageMines then
         squares[square].content = "#"
+        numberOfBombs = numberOfBombs + 1
     end
   end
   for square in pairs(squares) do
@@ -20,9 +32,12 @@ local function NewBoard(font)
 end
 
 function love.load()
-  local font = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 24)
+  GameState = GameStates.MENU
+  SmallFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 18)
+  MediumFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 24)
+  LargeFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 36)
+  love.graphics.setFont(MediumFont)
   math.randomseed(os.time())
-  NewBoard(font)
 end
 
 function love.update()
@@ -50,7 +65,18 @@ local function processSquare(square)
   end
 end
 
-function love.mousepressed(x, y, button)
+local function HandleMenuClick(x, y)
+  for _, button in ipairs(buttons) do
+    if x >= button.xMin and x <= button.xMax and y >= button.yMin and y <= button.yMax then
+      percentageMines = button.difficulty
+      numberOfBombs = 0
+      NewBoard(MediumFont)
+      GameState = GameStates.PLAYING
+    end
+  end
+end
+
+local function HandleGameClick(x, y, button)
   if button == 1 then
     for _, square in pairs(squares) do
       if x >= square.x1 and x <= square.x2 and y >= square.y1 and y <= square.y2 then
@@ -72,8 +98,48 @@ function love.mousepressed(x, y, button)
   end
 end
 
-function love.draw()
+function love.mousepressed(x, y, button)
+  if GameState == GameStates.PLAYING then
+    HandleGameClick(x, y, button)
+  elseif GameState == GameStates.MENU then
+    HandleMenuClick(x, y)
+  end
+end
+
+local function DrawPlayingScreen()
   for _, square in pairs(squares) do
     square:draw()
+  end
+  love.graphics.printf("Mines: " .. numberOfBombs, 0, love.graphics.getHeight() - 35, love.graphics.getWidth(), "center")
+end
+
+local function DrawMenuScreen()
+  love.graphics.setFont(LargeFont)
+  love.graphics.printf(
+    "Minesweeper",
+    0,
+    (love.graphics.getHeight() / 2 - LargeFont:getHeight() / 2) - 100,
+    love.graphics.getWidth(),
+    "center"
+  )
+  love.graphics.setFont(MediumFont)
+  love.graphics.printf(
+    "Select a difficulty",
+    0,
+    love.graphics.getHeight() / 2,
+    love.graphics.getWidth(),
+    "center"
+  )
+  love.graphics.setFont(SmallFont)
+  for _, button in ipairs(buttons) do
+    button:draw()
+  end
+end
+
+function love.draw()
+  if GameState == GameStates.PLAYING then
+    DrawPlayingScreen()
+  elseif GameState == GameStates.MENU then
+    DrawMenuScreen()
   end
 end
