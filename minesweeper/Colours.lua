@@ -1,16 +1,16 @@
 local colours = {
-    BLACK    = { r=  0, g=  0, b=  0},
-    WHITE    = { r=1, g=1, b=1},
-    GREEN    = { r=  0, g=1, b=  0},
-    RED      = { r=1, g=  0, b=  0},
-    BLUE     = { r=  0, g=  0, b=1},
-    NAVY     = { r=  0, g=  0, b=0.5},
-    VIOLET   = { r=1, g=  0, b=1},
-    PINK     = { r=1, g=0.7, b=0.7},
-    YELLOW   = { r=1, g=1, b=  0},
-    GRAY     = { r=0.4, g=0.4, b=0.4},
-    LIGHTGREY= { r=0.8, g=0.8, b=0.8},
-    ORANGE   = { r=1, g=0.5, b=  0},
+  BLACK = {0,0,0},
+  WHITE = {1,1,1},
+  GREEN = {0,1,0},
+  RED = {1,0,0},
+  BLUE = {0,0,1},
+  NAVY = {0,0,0.5},
+  VIOLET = {1,0,1},
+  PINK = {1,0.7,0.7},
+  YELLOW = {1,1,0},
+  GRAY = {0.4,0.4,0.4},
+  LIGHTGREY = {0.8,0.8,0.8},
+  ORANGE = {1,0.5,0},
 }
 
 return colours

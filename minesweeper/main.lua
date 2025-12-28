@@ -25,7 +25,7 @@ function love.load()
   NewBoard(font)
 end
 
-function love.update(dt)
+function love.update()
 
 end
 
@@ -71,7 +71,6 @@ function love.mousepressed(x, y, button)
     end
   end
 end
-
 
 function love.draw()
     for _, square in pairs(squares) do
