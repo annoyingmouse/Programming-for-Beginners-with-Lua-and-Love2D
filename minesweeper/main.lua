@@ -2,7 +2,7 @@ local love = require("love")
 local checkNeighbors = require('CheckNeighbors')
 local getAdjacentSquares = require('GetAdjacentSquares')
 local squares = require('squares').squares
-local percentageMines = 10
+local percentageMines = 25
 
 local function NewBoard(font)
   for square in pairs(squares) do
@@ -73,7 +73,7 @@ function love.mousepressed(x, y, button)
 end
 
 function love.draw()
-    for _, square in pairs(squares) do
-        square:draw()
-    end
+  for _, square in pairs(squares) do
+    square:draw()
+  end
 end
