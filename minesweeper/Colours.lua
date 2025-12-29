@@ -8,9 +8,11 @@ local colours = {
   VIOLET = {1,0,1},
   PINK = {1,0.7,0.7},
   YELLOW = {1,1,0},
-  GRAY = {0.4,0.4,0.4},
+  GREY = {0.4,0.4,0.4},
   LIGHTGREY = {0.8,0.8,0.8},
   ORANGE = {1,0.5,0},
+  PURPLE = {0.5,0,0.5},
+  TRANSPARENT_BLACK = {0,0,0,0.5},
 }
 
 return colours

@@ -17,6 +17,11 @@ end
 
 Button.draw = function(self)
   love.graphics.setFont(self.font)
+  if self.state == 2 then
+    love.graphics.setColor(0.5,0,0.5)
+  else
+    love.graphics.setColor(1, 1, 1)
+  end
   love.graphics.rectangle("line", self.xMin + 25, self.yMin , self.xMax - self.xMin - 50, self.yMax - self.yMin)
   love.graphics.printf(
     self.label,
@@ -25,6 +30,16 @@ Button.draw = function(self)
     self.xMax - self.xMin,
     "center"
   )
+  love.graphics.setColor(1, 1, 1)
+end
+
+Button.getRectForChecking = function(self)
+  return {
+    xMin = self.xMin + 25,
+    xMax = self.xMax - 25,
+    yMin = self.yMin,
+    yMax = self.yMax,
+  }
 end
 
 local height = love.graphics.getHeight()
