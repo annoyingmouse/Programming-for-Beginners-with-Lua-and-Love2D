@@ -99,7 +99,14 @@ for row = 1, 14 do
     local yMin = (row - 1) * sq
     local yMax = row * sq
     -- Create the new Square object and insert it into the table
-    squares[name] = Square:new(name, xMin, xMax, yMin, yMax, love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 24))
+    squares[name] = Square:new(
+        name,
+        xMin,
+        xMax,
+        yMin,
+        yMax,
+        love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 24)
+    )
   end
 end
 
