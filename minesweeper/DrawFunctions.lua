@@ -4,17 +4,17 @@ local love = require("love")
 
 local SmallFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 18)
 local MediumFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 24)
-local LargeFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 36)
+-- local LargeFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 36)
 local HugeFont = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 72)
 
 local DrawFunctions = {}
 
 DrawFunctions.DrawMenuScreen = function()
-  love.graphics.setFont(LargeFont)
+  love.graphics.setFont(HugeFont)
   love.graphics.printf(
     "Minesweeper",
     0,
-    (love.graphics.getHeight() / 2 - (LargeFont and LargeFont:getHeight() or 0) / 2) - 100,
+    (love.graphics.getHeight() / 2 - (HugeFont and HugeFont:getHeight() or 0) / 2) - 100,
     love.graphics.getWidth(),
     "center"
   )

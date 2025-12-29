@@ -2,7 +2,7 @@ local love = require("love")
 local checkNeighbors = require('CheckNeighbors')
 local getAdjacentSquares = require('GetAdjacentSquares')
 local buttons = require('MenuButtons')
-local squares = require('squares').squares
+local squares = require('squares')
 local withinBoundingBox = require('WithinBoundingBox')
 local DrawFunctions = require('DrawFunctions')
 local percentageMines = nil
@@ -20,7 +20,6 @@ local mouseX, mouseY = 0, 0
 local function NewBoard()
   numberOfBombs = 0
   for square in pairs(squares) do
-    squares[square].font = love.graphics.newFont("fonts/TT Octosquares Trial Expanded Black.ttf", 24)
     squares[square].visible = false
     squares[square].content = ""
     squares[square].flagged = false
@@ -143,6 +142,12 @@ function love.mousepressed(_, _, button)
     GameState = GameStates.MENU
   elseif GameState == GameStates.MENU then
     HandleMenuClick()
+  end
+end
+
+function love.keypressed(key)
+  if key == "escape" then
+    GameState = GameStates.MENU
   end
 end
 

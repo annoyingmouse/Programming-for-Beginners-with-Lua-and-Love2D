@@ -110,7 +110,4 @@ for row = 1, 14 do
   end
 end
 
-return {
-    squares = squares,
-    sq = sq,
-}
+return squares
