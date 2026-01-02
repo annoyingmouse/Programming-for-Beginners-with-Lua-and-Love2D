@@ -1,7 +1,8 @@
 local Dump = require("Dump")
+-- _G.love = require("love")
+
 local MAX_NUMBER = 99
 local MIN_NUMBER = 0
-local RANGE_SIZE = MAX_NUMBER - MIN_NUMBER + 1
 local currentNumber = 50
 local zeroHitCount1 = 0
 local zeroHitCount2 = 0
@@ -17,7 +18,27 @@ local function read_file(path)
     return lines
 end
 
-local input_lines = read_file("input.txt")
+local input_lines = read_file("test.txt")
+
+-- function love.load()
+--   _G.centerX = love.graphics.getWidth() / 2
+--   _G.centerY = love.graphics.getHeight() / 2
+--   _G.radius = 200
+-- end
+
+-- function love.draw()
+--   print('input_lines:', #input_lines)
+--   love.graphics.clear(0.1, 0.1, 0.1)
+--   love.graphics.setColor(1, 1, 1)
+
+--   for i = MIN_NUMBER, MAX_NUMBER do
+--     local angle = (i / (MAX_NUMBER - MIN_NUMBER + 1)) * (2 * math.pi) - (math.pi / 2)
+--     local x = _G.centerX + math.cos(angle) * _G.radius
+--     local y = _G.centerY + math.sin(angle) * _G.radius
+--     love.graphics.line(_G.centerX, _G.centerY, x, y)
+--   end
+-- end
+
 
 if input_lines then
   for _, value in ipairs(input_lines) do

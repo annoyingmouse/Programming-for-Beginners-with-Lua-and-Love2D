@@ -25,9 +25,7 @@ function IntPairSet:iterate(callback)
     end
 end
 
-function IntPairSet:getFlatCoordinates(offsetX, offsetY)
-    offsetX = offsetX or 0
-    offsetY = offsetY or 0
+function IntPairSet:getFlatCoordinates()
     local temp = {}
     
     -- 1. Gather points
@@ -44,8 +42,8 @@ function IntPairSet:getFlatCoordinates(offsetX, offsetY)
     -- 3. Flatten
     local flat = {}
     for _, pos in ipairs(temp) do
-        table.insert(flat, pos.x + offsetX)
-        table.insert(flat, pos.y + offsetY)
+        table.insert(flat, pos.x)
+        table.insert(flat, pos.y)
     end
 
     return flat
