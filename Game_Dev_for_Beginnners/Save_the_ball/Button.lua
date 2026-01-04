@@ -7,7 +7,6 @@ function Button:new(text, x, y, width, height, onClick)
     width = width or 100,
     height = height or 100,
     onClick = onClick or function() print("This button has no function attached") end,
-    func_params = func_params or nil,
     hovered = false
   }
   setmetatable(obj, self)
